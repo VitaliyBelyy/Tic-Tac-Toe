@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Tic-Tac-Toe</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<style>
+		body{
+			margin: 50px 0 0 50px;
+			background-color: #15bdac;
+		}
+		.nought {
+			width: 40px;
+			height: 40px;
+			position: relative;
+			
+		}
+		.nought:after {
+			display: block;
+			position: absolute;
+			content: "";
+			width: 28px;
+			height: 28px;
+			border-radius: 100%;
+			background-color: #15bdac;
+			top: calc( 50% - 14px);
+			left: calc( 50% - 14px);
+			z-index: 400;
+		}
+
+		.pie {
+			width: 50%;
+			height: 100%;
+			position: absolute;
+			background: #fff;
+		}
+
+		.spinner {
+			border-radius: 25px 0 0 25px;
+			z-index: 200;
+			transform-origin: 100% 50%;
+			animation: rotation 5s linear;
+			animation-fill-mode: forwards;
+		}
+
+		.filler {
+			border-radius: 0 25px 25px 0;
+			z-index: 100;
+			animation: fill 5s steps(1, end);
+			animation-fill-mode: forwards;
+			left: 50%;
+			opacity: 0;
+		}
+
+		.mask {
+			width: 50%;
+			height: 100%;
+			position: absolute;
+			z-index: 300;
+			opacity: 1;
+			background-color: #15bdac;
+			animation: mask 5s steps(1, end);
+			animation-fill-mode: forwards;
+		}
+
+		@keyframes rotation {
+			0%   { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+
+		@keyframes fill {
+			0%        { opacity: 0; }
+			50%, 100% { opacity: 1; }
+		}
+
+		@keyframes mask {
+			0%        { opacity: 1; }
+			50%, 100% { opacity: 0; }
+		}
+
+		.cross {
+			width: 40px;
+			height: 40px;
+			position: relative;
+			
+		}
+		.cross .line {
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 5px;
+			background-color: #545454;
+		  	
+		}
+		.cross .line:first-child {
+			animation-name: stretch-1;
+		  	animation-duration: .2s;
+		  	animation-timing-function: linear;
+			animation-fill-mode: forwards;
+
+		}
+		.cross .line:last-child {
+			animation-name: stretch-2;
+		  	animation-duration: .4s;
+		  	animation-timing-function: linear;
+			animation-fill-mode: forwards;
+		}
+		@keyframes stretch-1 {
+			0% { 
+				width: 0;
+				transform: rotate(45deg) translate(3.5px, -2px); 
+			}
+			100% { 
+				width: 45px; 
+				transform: rotate(45deg) translate(10px, 14px); 
+			}
+		}
+
+		@keyframes stretch-2 {
+			0% { 
+				width: 0;
+				transform: rotate(135deg) translate(-24px, -26px); 
+			}
+			50% { 
+				width: 0;
+				transform: rotate(135deg) translate(-24px, -26px); 
+			}
+			100% { 
+				width: 45px; 
+				transform: rotate(135deg) translate(14px, -10px); 
+			}
+		}
+		
+		svg {
+			display: block;
+		}
+		#line1 {
+			animation-name: line1;
+			animation-duration: 3s;
+			animation-timing-function: linear;
+			animation-fill-mode: forwards;
+		}
+		@keyframes line1 {
+			from {
+				stroke-dashoffset: 51;
+			}
+		  	to {
+				stroke-dashoffset: 0;
+		  	}
+		}
+		#line2 {
+			animation-name: line2;
+			animation-duration: 6s;
+			animation-timing-function: linear;
+			animation-fill-mode: forwards;
+		}
+		@keyframes line2 {
+			0% {
+				stroke-dashoffset: 51;
+			}
+			50% {
+				stroke-dashoffset: 51;
+			}
+		  	100% {
+				stroke-dashoffset: 0;
+		  	}
+		}
+		#circle {
+			animation-name: cirlce;
+			animation-duration: 3s;
+			animation-timing-function: linear;
+			animation-fill-mode: forwards;
+		}
+		@keyframes cirlce {
+			from {
+				stroke-dashoffset: 107;
+			}
+		  	to {
+				stroke-dashoffset: 0;
+		  	}
+		}
+		.cross-line-wrap {
+			width: 207px;
+			height: 207px;
+		}
+		#diagonal-1 {
+			animation-name: diagonal-1;
+			animation-duration: 3s;
+			animation-timing-function: linear;
+			animation-fill-mode: forwards;
+		}
+		@keyframes diagonal-1 {
+			0% {
+				stroke-dashoffset: 284;
+			}
+		  	50% {
+				stroke-dashoffset: 0;
+				transform: translate(0, 0);
+		  	}
+		  	100% {
+		  		transform: translate(71px, 71px);
+		  		stroke-dashoffset: 200;
+		  		
+		  	}
+		}
+		#vertical-line {
+			animation-name: vertical-line;
+			animation-duration: 3s;
+			animation-timing-function: linear;
+			animation-fill-mode: forwards;
+		}
+		@keyframes vertical-line {
+			0% {
+				stroke-dashoffset: 207;
+			}
+		  	50% {
+				stroke-dashoffset: 0;
+				transform: translate(0, 0);
+		  	}
+		  	100% {
+		  		transform: translateY(71px);
+		  		stroke-dashoffset: 142;
+		  		
+		  	}
+		}
+		#horizontal-line {
+			animation-name: horizontal-line;
+			animation-duration: 3s;
+			animation-timing-function: linear;
+			animation-fill-mode: forwards;
+		}
+		@keyframes horizontal-line {
+			0% {
+				stroke-dashoffset: 207;
+			}
+		  	50% {
+				stroke-dashoffset: 0;
+				transform: translate(0, 0);
+		  	}
+		  	100% {
+		  		transform: translateX(71px);
+		  		stroke-dashoffset: 142;
+		  		
+		  	}
+		}
+		#diagonal-2 {
+			animation-name: diagonal-2;
+			animation-duration: 3s;
+			animation-timing-function: linear;
+			animation-fill-mode: forwards;
+		}
+		@keyframes diagonal-2 {
+			0% {
+				stroke-dashoffset: 284;
+			}
+		  	50% {
+				stroke-dashoffset: 0;
+				transform: translate(0, 0);
+		  	}
+		  	100% {
+		  		transform: translate(-71px, 71px);
+		  		stroke-dashoffset: 200;
+		  		
+		  	}
+		}
+		
+		
+	</style>
+</head>
+<body>
+	<div class="nought">
+	  	<div class="spinner pie"></div>
+	  	<div class="filler pie"></div>
+	  	<div class="mask"></div>
+	</div>
+	<div class="cross">
+		<span class="line"></span>
+		<span class="line"></span>
+	</div>
+	<svg class="cross">
+		<path id="line1" d="M3 3 L37 37" stroke="#545454" stroke-width="6" stroke-dasharray="51" stroke-dashoffset="0">
+			<!-- <animate attributeName="stroke-dashoffset" values="51; 0" dur="3s" repeatCount="1" fill="freeze" calcMode="linear"/> -->
+		</path>
+		<path id="line2" d="M37 3 L3 37" stroke="#545454" stroke-width="6" stroke-dasharray="51" stroke-dashoffset="0">
+			<!-- <animate attributeName="stroke-dashoffset" values="51; 51; 0" keyTimes="0; 0.5; 1" dur="6s" repeatCount="1" fill="freeze" calcMode="linear"/> -->
+		</path>
+	</svg>
+	<svg class="nought">
+		<path id="circle" d="M20 3 A 17 17 0 0 0 3 20 A 17 17 0 1 0 20 3" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="107" stroke-dashoffset="0">
+			<!-- <animate attributeName="stroke-dashoffset" values="107; 0" dur="6s" repeatCount="1" fill="freeze" calcMode="linear"/> -->
+		</path>
+	</svg>
+	<svg class="cross-line-wrap">
+		<path id="diagonal-1" d="M4 3 L204 204" stroke="#545454" stroke-width="6" stroke-dasharray="284" stroke-dashoffset="0"/>
+		<path id="vertical-line" d="M103.5 0 L103.5 207" stroke="#545454" stroke-width="6" stroke-dasharray="207" stroke-dashoffset="0"/>
+		<path id="horizontal-line" d="M0 103.5 L207 103.5" stroke="#545454" stroke-width="6" stroke-dasharray="207" stroke-dashoffset="0"/>
+		<path id="diagonal-2" d="M204 3 L3 204" stroke="#545454" stroke-width="6" stroke-dasharray="284" stroke-dashoffset="0"/>
+	</svg>
+	<script>
+	    // function TotalLength(){
+	    //     var path = document.querySelector('#cross-line');
+	    //     var len = Math.round(path.getTotalLength() );
+	    //     alert("Длина  " + len);
+	    // };
+	    // TotalLength();
+	</script>
+</body>
+</html>
+
+
+
+<!--
+<style>
+	.pie {
+	    background-color:#30BAE7;
+	    width:160px;
+	    height:160px;
+	    position:relative;
+	}
+	.clip1 {
+	    position:absolute;
+	    top:0;
+	    left:0;
+	    width:160px;
+	    height:160px;
+	    clip:rect(0px, 160px, 160px, 80px);
+	}
+	.slice1 {
+	    position:absolute;
+	    width:160px;
+	    height:160px;
+	    clip:rect(0px, 80px, 160px, 0px);
+	    -moz-border-radius:100%;
+	    -webkit-border-radius:100%;
+	    border-radius:100%;
+	    background-color:#fff;
+	    -moz-transform:rotate(0);
+	    -webkit-transform:rotate(0);
+	    -o-transform:rotate(0);
+	    transform:rotate(0);
+	    transition: transform 2s ease-out;
+	}
+	.clip2 {
+	    position:absolute;
+	    top:0;
+	    left:0;
+	    width:160px;
+	    height:160px;
+	    clip:rect(0, 80px, 160px, 0px);
+	}
+	.slice2 {
+	    position:absolute;
+	    width:160px;
+	    height:160px;                                
+	    clip:rect(0px, 160px, 160px, 80px);
+	    -moz-border-radius:100%;
+	    -webkit-border-radius:100%;
+	    border-radius:100%;
+	    background-color:#fff;
+	    -moz-transform:rotate(0);
+	    -webkit-transform:rotate(0);
+	    -o-transform:rotate(0);
+	    transform:rotate(0);
+	    transition: transform 2s ease-out;
+	}
+	.status {
+	    position:absolute;
+	    top:27px;
+	    left: 27px;
+	    width: 104px;
+	    height: 104px;
+	    border-radius: 100%;
+	    background-color:#30BAE7;
+	}
+</style>
+<div class="pie">
+    <div class="clip1">
+        <div class="slice1"></div>
+    </div>
+    <div class="clip2">
+        <div class="slice2"></div>
+    </div>
+    <div class="status"></div>
+</div>
+<script>
+	$(document).ready(function () {
+	    var pie = $('.pie');
+	    rotate(pie.find(".slice1"), 180);
+	    rotate(pie.find(".slice2"), 180);
+	});
+
+	function rotate(element, degree) {
+	    element.css({
+	        '-webkit-transform': 'rotate(' + degree + 'deg)',
+	            '-moz-transform': 'rotate(' + degree + 'deg)',
+	            '-ms-transform': 'rotate(' + degree + 'deg)',
+	            '-o-transform': 'rotate(' + degree + 'deg)',
+	            'transform': 'rotate(' + degree + 'deg)',
+	            'zoom': 1
+	    });
+	}
+</script>

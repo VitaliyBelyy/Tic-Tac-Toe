@@ -1,0 +1,396 @@
+body {
+	margin: 0;
+	font-family: arial,sans-serif;
+}
+p {
+	margin: 0;
+}
+.game-container {
+	max-width: 630px;
+	margin: 10px auto 0;
+	background-color: #f8f8f8;
+	border-radius: 2px;
+	-webkit-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.5);
+	box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.5);
+}
+.controll-section {
+	padding: 12px 16px;
+	min-height: 124px;
+	box-sizing: border-box;
+}
+.select-mode {
+	margin-bottom: 10px;
+}
+.select-mode select {
+	border: none;
+	background-color: transparent;
+	-webkit-appearance: none;
+	padding: 5px 10px 5px 20px;
+	font-size: 14px;
+	font-weight: bold;
+	color: rgba(0,0,0,.54);
+  	background-image: url('../images/down-arrow.png');
+  	background-position: 5px center;
+  	background-repeat: no-repeat;
+  	/* for FF */
+  	-moz-appearance: none;
+  	text-indent: 0.01px; 
+  	text-overflow: '';
+  	/* for IE */
+  	-ms-appearance: none;
+  	appearance: none!important;
+}
+select::-ms-expand {
+  display: none;
+}
+.score {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 10px
+}
+.score div {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	max-width: 196px;
+	height: 40px;
+	padding: 2px 20px 0 15px;
+	background-color: #fff;
+	border-radius: 2px;
+	box-sizing: border-box;
+	-webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.25);
+	-moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.25);
+	box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.25);
+	border-bottom: 2px solid transparent;
+	transition: all 0.25s;
+    -webkit-transition: all 0.25s;
+}
+.score div:first-child {
+	margin-right: 8px;
+}
+.score div.active {
+	border-bottom: 2px solid #14bdac;
+	box-shadow: 0 2px 5px rgba(0,0,0,.2);
+}
+.score svg {
+	width: 14px;
+    height: 14px;
+}
+.score .score-points {
+	font-size: 24px;
+	color: rgba(0,0,0,.54);
+}
+.turn {
+	font-size: 14px;
+	color: rgba(0,0,0,.54);
+}
+.turn p {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 14px;
+}
+.turn svg {
+	margin-left: 5px; 
+	width: 12px;
+    height: 12px;
+}
+.field-wrapper {
+	position: relative;
+	background-color: #15bdac;
+	padding: 20px 0;
+	min-height: 247px;
+	box-sizing: border-box;
+	-webkit-box-shadow: inset 0px -4px 15px 0px rgba(13,161,145,1);
+	-moz-box-shadow: inset 0px -4px 15px 0px rgba(13,161,145,1);
+	box-shadow: inset 0px -4px 15px 0px rgba(13,161,145,1);
+}
+.field-wrapper .overlay {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding-top: 103px;
+	animation-name: fill;
+	animation-duration: .2s;
+	animation-timing-function: ease-out;
+	animation-fill-mode: forwards;
+	overflow: hidden;
+	z-index: 999;
+}
+@keyframes fill {
+	from {
+		background-color: transparent;
+	}
+	to {
+		background-color: #15bdac;
+	}
+}
+.overlay .winner-icon {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 30px;
+	animation-name: scale;
+	animation-duration: .6s;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+@keyframes scale {
+	from {
+		transform: scale(1) translateY(0);
+	}
+	to {
+		transform: scale(2.6) translateY(-8px);
+	}
+}
+.overlay .winner-icon svg {
+	width: 40px;
+	height: 40px;
+}
+.overlay .winner-icon svg:nth-child(2) {
+	margin-left: 5px;
+}
+.overlay .caption {
+	text-align: center;
+	color: #545454;
+	font-size: 34px;
+	font-weight: bold;
+	text-transform: uppercase;
+	animation-name: opacity;
+	animation-duration: .7s;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+@keyframes opacity {
+	0% {
+		opacity: 0;
+	}
+	75% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+.grid {
+	position: relative;
+	max-width: 207px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+.grid .row {
+	display: flex;
+	justify-content: flex-start;
+	margin: 0  0 6px 0;
+}
+.grid .row:last-child {
+	margin: 0;
+}
+.grid .col {
+	width: 65px;
+	height: 65px;
+	padding: 12px 0 0 12px;
+    margin-right: 6px;
+    box-sizing: border-box;
+    transition: transform .5s linear;
+}
+.grid .col svg {
+	width: 40px;
+	height: 40px;
+}
+#line1 {
+	animation-name: line1;
+	animation-duration: .2s;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+@keyframes line1 {
+	from {
+		stroke-dashoffset: 51;
+	}
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+#line2 {
+	animation-name: line2;
+	animation-duration: .4s;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+@keyframes line2 {
+	0% {
+		stroke-dashoffset: 51;
+	}
+	50% {
+		stroke-dashoffset: 51;
+	}
+	100% {
+		stroke-dashoffset: 0;
+	}
+}
+#circle {
+	animation-name: cirlce;
+	animation-duration: .4s;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+@keyframes cirlce {
+	from {
+		stroke-dashoffset: 107;
+	}
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+.grid .col:last-child {
+	margin: 0;
+}
+.grid .horizontal-l {
+	position: absolute;
+	width: 1px;
+	height: 6px;
+	background-color: #0da191;
+}
+.grid .vertical-l {
+	position: absolute;
+	height: 1px;
+	width: 6px;
+	background-color: #0da191;
+}
+.grid .horizontal-l.top {
+	top: 65px;
+	left: calc( 50% - 0.5px);
+}
+.grid .horizontal-l.bot {
+	bottom: 65px;
+	left: calc( 50% - 0.5px);
+}
+.grid .vertical-l.left {
+	left: 65px;
+	top: calc( 50% - 0.5px);
+}
+.grid .vertical-l.right {
+	right: 65px;
+	top: calc( 50% - 0.5px);
+}
+.grid > svg.cross-line {
+	width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    transition: transform .5s linear;
+}
+#vertical-line {
+	animation-name: cross-vertical;
+	animation-duration: 1.4s;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+@keyframes cross-vertical {
+	0% {
+		stroke-dashoffset: 207;
+	}
+	30% {
+		stroke-dashoffset: 207;
+	}
+	65% {
+		stroke-dashoffset: 0;
+		transform: translate(0, 0);
+	}
+	100% {
+		transform: translateY(103.5px);
+		stroke-dashoffset: 207;	
+	}
+}
+#horizontal-line {
+	animation-name: cross-horizontal;
+	animation-duration: 1.4s;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+@keyframes cross-horizontal {
+	0% {
+		stroke-dashoffset: 207;
+	}
+	30% {
+		stroke-dashoffset: 207;
+	}
+	65% {
+		stroke-dashoffset: 0;
+		transform: translate(0, 0);
+	}
+	100% {
+		transform: translateX(103.5px);
+		stroke-dashoffset: 207;	
+	}
+}
+#cross-diagonal-1 {
+	animation-name: cross-diagonal-1;
+	animation-duration: 1.4s;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+@keyframes cross-diagonal-1 {
+	0% {
+		stroke-dashoffset: 284;
+	}
+	30% {
+		stroke-dashoffset: 284;
+	}
+	65% {
+		stroke-dashoffset: 0;
+		transform: translate(0, 0);
+	}
+	100% {
+		transform: translate(103.5px, 103.5px);
+		stroke-dashoffset: 284;	
+	}
+}
+#cross-diagonal-2 {
+	animation-name: cross-diagonal-2;
+	animation-duration: 1.4s;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+@keyframes cross-diagonal-2 {
+	0% {
+		stroke-dashoffset: 284;
+	}
+	30% {
+		stroke-dashoffset: 284;
+	}
+	65% {
+		stroke-dashoffset: 0;
+		transform: translate(0, 0);
+	}
+	100% {
+		transform: translate(-103.5px, 103.5px);
+		stroke-dashoffset: 284;
+	}
+}
+button.restart {
+	display: block;
+	width: 100%;
+	padding: 15px 0;
+	text-align: center;
+	border: none;
+	background: transparent;
+	font-size: 14px;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: #14bdac;
+	cursor: pointer;
+	outline: 0;
+	box-shadow: 0 1px 1px rgba(0,0,0,.2);
+	transition: box-shadow 200ms cubic-bezier(0.4,0,0.2,1);
+}
+button.restart:active {
+    box-shadow: 0 4px 5px rgba(0,0,0,.2);
+}
+    
